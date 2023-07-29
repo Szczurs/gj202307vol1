@@ -3,9 +3,11 @@ using UnityEngine;
 public class TopDown2DMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public bool faceDirectionOfMovement = true; // Add a bool property to enable/disable facing direction
+    public bool faceDirectionOfMovement = true;
+    public float rotationSpeed = 360f; 
 
     private Rigidbody2D rb2D;
+    private Quaternion targetRotation;
 
     void Start()
     {
@@ -23,7 +25,8 @@ public class TopDown2DMovement : MonoBehaviour
         if (faceDirectionOfMovement && movementDirection.magnitude != 0)
         {
             float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 }
