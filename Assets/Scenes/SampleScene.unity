@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &81528145 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7434934300262094072, guid: 5eee2593eebdd8f44abcf1f25a1b69f7, type: 3}
-  m_PrefabInstance: {fileID: 3260460703037262316}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &81973560
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +134,7 @@ GameObject:
   - component: {fileID: 81973561}
   m_Layer: 0
   m_Name: EnemyPointOfInterest
-  m_TagString: Untagged
+  m_TagString: EnemyPointOfInterest
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
