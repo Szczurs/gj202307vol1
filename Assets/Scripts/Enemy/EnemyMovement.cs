@@ -1,30 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class TopViewEnemyMovement : MonoBehaviour
 {
     public string playerTag = "Player"; // Tag of the player GameObject
+    public string enemyPointOfInterestTag = "EnemyPointOfInterest"; // Tag of the player GameObject
     public float maxSpeed = 6.0f; // Maximum movement speed of the enemy when escaping
     public float minSpeed = 3.0f; // Minimum movement speed of the enemy when escaping
     public float minDistanceToPlayer = 5.0f; // Minimum distance to start running away from the player
     public float rangeAroundPointOfInterest = 20.0f; // Range around the point of interest for random movement
     public float stopChasingDistance = 15.0f; // The distance at which the enemy stops chasing and starts random movement
-
+    public float rotationSpeed = 5.0f; // The rotation speed of the enemy
     public float currentDistanceToPlayer = 0; // Public variable to store the current distance
     public float currentSpeed = 0; // Public variable to store the current speed
 
     public Transform pointOfInterest; // Reference to the point of interest's transform
 
     public Transform playerTransform; // Reference to the player's transform
-    [SerializeField] private Vector3 randomDestination; // Random destination for movement
+    [SerializeField] private Vector2 randomDestination; // Random destination for movement
     [SerializeField] private bool isChasing = false; // Flag to track if the enemy is chasing the player
 
     private void Start()
     {
         // Find the player GameObject based on the tag
         GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+        pointOfInterest = GameObject.FindGameObjectsWithTag(enemyPointOfInterestTag).ElementAt(0).transform;
 
         // Check if the player GameObject was found
         if (player != null)
@@ -58,6 +61,9 @@ public class TopViewEnemyMovement : MonoBehaviour
 
         // Calculate the adjusted speed based on the normalized distance (inverse relationship)
         currentSpeed = Mathf.Lerp(maxSpeed, minSpeed, normalizedDistance);
+
+        // Rotate the enemy towards the direction of its movement
+        RotateEnemy();
 
         // Determine if the player is within the minimum distance to run away
         if (currentDistanceToPlayer <= stopChasingDistance)
@@ -103,13 +109,14 @@ public class TopViewEnemyMovement : MonoBehaviour
     private void MoveRandomlyWithinRange()
     {
         // If the enemy has reached the random destination, set a new one
-        if (Vector3.Distance(transform.position, randomDestination) <= 0.1f)
+        if (Vector3.Distance(transform.position, randomDestination) <= 0.2f)
         {
             SetRandomDestination();
         }
 
         // Move the enemy towards the random destination
         transform.position = Vector3.MoveTowards(transform.position, randomDestination, currentSpeed * Time.deltaTime);
+
     }
 
     private void SetRandomDestination()
@@ -119,8 +126,34 @@ public class TopViewEnemyMovement : MonoBehaviour
         Vector3 randomPosition = pointOfInterest.position + new Vector3(randomDirection.x, randomDirection.y, 0f);
 
         // Set the random destination with a Z value of 0
-        randomDestination = new Vector3(randomPosition.x, randomPosition.y, 0f);
+        randomDestination = new Vector2(randomPosition.x, randomPosition.y);
     }
+
+    private void RotateEnemy()
+    {
+        Vector3 moveDirection;
+        if (isChasing)
+        {
+            moveDirection = transform.position - playerTransform.position;
+        }
+        else
+        {
+            moveDirection = randomDestination - (Vector2)transform.position;
+        }
+
+        if (moveDirection != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation;
+                   
+            // Rotate towards the direction of movement when moving randomly
+            targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+            
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
+
 
     private IEnumerator SetNewRandomDestinationCoroutine()
     {
