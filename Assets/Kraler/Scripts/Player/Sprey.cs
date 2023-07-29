@@ -22,7 +22,7 @@ public class Sprey : MonoBehaviour
     {
         Debug.Log("dzia³¹1");
 
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy1"))
         {
             Debug.Log("dzia³¹2");
 
