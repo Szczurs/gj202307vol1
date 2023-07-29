@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 327538110307515346, guid: b7fce194a549d7f459bf6d6e1feab938, type: 3}
-  maxEnemiesPerSpawner: 5
+  maxEnemiesPerSpawner: 50
   spawnInterval: 3
   spawnRange: 5
   spawnerTag: EnemySpawner
