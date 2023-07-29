@@ -11,7 +11,7 @@ public class EnemySpawnerManager : MonoBehaviour
     public string spawnerTag = "EnemySpawner"; // Tag to identify enemy spawners
 
     private List<GameObject> enemySpawners = new List<GameObject>(); // List to store references to all enemy spawners
-    private List<GameObject> spawnedEnemies = new List<GameObject>(); // List to store references to all spawned enemies
+    public List<GameObject> spawnedEnemies = new List<GameObject>(); // List to store references to all spawned enemies
 
     private void Start()
     {
