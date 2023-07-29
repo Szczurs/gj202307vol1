@@ -3,10 +3,12 @@ using UnityEngine;
 public class TopViewEnemyMovement : MonoBehaviour
 {
     public string playerTag = "Player"; // Tag of the player GameObject
-    public float movementSpeed = 3.0f; // Movement speed of the enemy
+    public float maxSpeed = 6.0f; // Maximum movement speed of the enemy
+    public float minSpeed = 3.0f; // Minimum movement speed of the enemy
     public float minDistanceToPlayer = 10.0f; // Minimum distance to start running away from the player
 
     public float currentDistanceToPlayer { get; private set; } // Public variable to store the current distance
+    public float currentSpeed { get; private set; } // Public variable to store the current speed
 
     private Transform playerTransform; // Reference to the player's transform
 
@@ -39,6 +41,12 @@ public class TopViewEnemyMovement : MonoBehaviour
         // Calculate the distance between the enemy and the player
         currentDistanceToPlayer = directionToPlayer.magnitude;
 
+        // Calculate the normalized distance (a value between 0 and 1)
+        float normalizedDistance = Mathf.Clamp01(currentDistanceToPlayer / minDistanceToPlayer);
+
+        // Calculate the adjusted speed based on the normalized distance (inverse relationship)
+        currentSpeed = Mathf.Lerp(maxSpeed, minSpeed, normalizedDistance);
+
         // Determine if the player is within the minimum distance to run away
         if (currentDistanceToPlayer <= minDistanceToPlayer)
         {
@@ -46,7 +54,7 @@ public class TopViewEnemyMovement : MonoBehaviour
             Vector3 targetPosition = playerTransform.position - directionToPlayer.normalized * minDistanceToPlayer;
 
             // Move the enemy towards the target position
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
         }
     }
 }
