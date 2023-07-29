@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,7 +36,8 @@ public class TopViewEnemyMovement : MonoBehaviour
             Debug.LogError("Player GameObject not found with tag: " + playerTag);
         }
 
-        SetRandomDestination();
+        // Start the coroutine to set new random destinations
+        StartCoroutine(SetNewRandomDestinationCoroutine());
     }
 
     private void Update()
@@ -76,14 +79,16 @@ public class TopViewEnemyMovement : MonoBehaviour
                 // If the enemy is currently chasing, check if the player is beyond the stopChasingDistance
                 if (currentDistanceToPlayer >= stopChasingDistance)
                 {
-                    isChasing = false; // Stop chasing if the player is far enough away
+                    isChasing = false; // Stop chasing if the player is far enough away                  
+                    SetRandomDestination(); // Set a new random destination
                     MoveRandomlyWithinRange(); // Start moving randomly within the range
                 }
                 else
                 {
                     // Continue chasing the player
                     Vector3 targetPosition = playerTransform.position - directionToPlayer.normalized * (stopChasingDistance + 2);
-                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+                    currentSpeed = minSpeed;
                 }
             }
             else
@@ -111,9 +116,21 @@ public class TopViewEnemyMovement : MonoBehaviour
     {
         // Generate a random direction and distance within the specified range
         Vector2 randomDirection = Random.insideUnitCircle.normalized * rangeAroundPointOfInterest;
-        Vector3 randomPosition = pointOfInterest.position + new Vector3(randomDirection.x, 0f, randomDirection.y);
+        Vector3 randomPosition = pointOfInterest.position + new Vector3(randomDirection.x, randomDirection.y, 0f);
 
-        // Set the random destination
-        randomDestination = randomPosition;
+        // Set the random destination with a Z value of 0
+        randomDestination = new Vector3(randomPosition.x, randomPosition.y, 0f);
+    }
+
+    private IEnumerator SetNewRandomDestinationCoroutine()
+    {
+        while (true)
+        {
+            // Set a new random destination
+            SetRandomDestination();
+
+            // Wait for 10 seconds before setting the next random destination
+            yield return new WaitForSeconds(10f);
+        }
     }
 }
