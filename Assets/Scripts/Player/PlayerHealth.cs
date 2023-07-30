@@ -1,23 +1,65 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 100;
+    public int maxHealth = 3;
     public int currentHealth;
-
+    private float nextHealCool = 5f;
+    private float healCool = 10f;
     private bool isDead = false;
+    private float timeSpend = 0f;
+    private float timeSpendToHeal = 0f;
+    private float takeDamageCool = 3f;
+    [SerializeField] private float nextTakeDamage = 0f;
+    public bool isAtacked = false;
 
     void Start()
     {
         currentHealth = maxHealth;
     }
 
+    private void Update()
+    {
+        if (isAtacked)
+        {
+            if (timeSpend >= healCool)
+            {
+                isAtacked = false;
+                timeSpend += Time.deltaTime;                
+            }
+        }
+        else if (!isAtacked)
+        {
+            timeSpend = 0f;
+            //if (currentHealth == maxHealth)
+            //    return;
+            //else
+            //{
+                if (timeSpendToHeal >= nextHealCool)
+                {
+                    Heal();
+                    timeSpendToHeal = 0f;
+                }
+                else
+                    timeSpendToHeal += Time.deltaTime;
+            //}
+        }
+        nextTakeDamage += Time.deltaTime;
+        Debug.Log(nextTakeDamage);
+
+    }
+
     public void TakeDamage(int damageAmount)
     {
         if (isDead)
             return;
-
-        currentHealth -= damageAmount;
+        if (nextTakeDamage >= takeDamageCool)
+        {
+            currentHealth -= damageAmount;
+            isAtacked = true;
+            nextTakeDamage = 0f;
+        }
 
         // Check if the player is dead
         if (currentHealth <= 0)
@@ -28,15 +70,15 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void Heal(int healAmount)
+    public void Heal()
     {
         if (isDead)
             return;
 
-        currentHealth += healAmount;
+        currentHealth += 1;
+        if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
 
-        // Make sure health doesn't exceed maxHealth
-        currentHealth = Mathf.Min(currentHealth, maxHealth);
     }
 
     private void HandleDeath()
