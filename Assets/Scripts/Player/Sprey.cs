@@ -20,11 +20,11 @@ public class Sprey : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("dzia³¹1");
+        Debug.Log("dzia1");
 
         if (other.CompareTag("Enemy1"))
         {
-            Debug.Log("dzia³¹2");
+            Debug.Log("dzia2");
 
             //if (Time.time > nextCool)
             //{
@@ -36,11 +36,11 @@ public class Sprey : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("dzia³¹3");
+        Debug.Log("dzia3");
 
         if (other.tag == "Enemy")
         {
-            Debug.Log("dzia³¹4");
+            Debug.Log("dzia4");
 
             //if (Time.time > nextCool)
             //{

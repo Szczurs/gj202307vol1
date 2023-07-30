@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3550637159707106291}
   - component: {fileID: 6387669815554135854}
+  - component: {fileID: 9147018333401368726}
   - component: {fileID: 259183538869623887}
-  - component: {fileID: -1318491707314959810}
   - component: {fileID: -5614810732145106246}
   m_Layer: 0
   m_Name: Sprey
@@ -87,6 +87,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &9147018333401368726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8060342406977913253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe9e26b8c7dbeb4bbfcbd6ad75a6b8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atackCool: 1
 --- !u!61 &259183538869623887
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -132,19 +145,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-1318491707314959810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8060342406977913253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe9e26b8c7dbeb4bbfcbd6ad75a6b8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atackCool: 1
 --- !u!50 &-5614810732145106246
 Rigidbody2D:
   serializedVersion: 4
