@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [SerializeField] private PointSystem points;
     public int maxHealth = 100;  // Maximum health of the enemy
     public int currentHealth;   // Current health of the enemy
 
@@ -24,6 +25,7 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         // Perform any death actions here (e.g., play death animation, drop items, etc.)
+        points.score += 5;
         Destroy(gameObject);  // Destroy the enemy GameObject when it dies
     }
 }
