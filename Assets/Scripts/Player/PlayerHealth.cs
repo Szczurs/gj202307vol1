@@ -10,6 +10,8 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead = false;
     private float timeSpend = 0f;
     private float timeSpendToHeal = 0f;
+    private float takeDamageCool = 3f;
+    private float nextTakeDamage = 0f;
     public bool isAtacked = false;
 
     void Start()
@@ -21,10 +23,10 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isAtacked)
         {
-            if (timeSpend > healCool)
+            if (timeSpend >= healCool)
             {
                 isAtacked = false;
-                timeSpend += Time.deltaTime;
+                timeSpend += Time.deltaTime;                
             }
         }
         else if (!isAtacked)
@@ -34,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
                 return;
             else
             {
-                if (timeSpendToHeal > nextHealCool)
+                if (timeSpendToHeal >= nextHealCool)
                 {
                     Heal();
                     timeSpendToHeal = 0f;
@@ -43,6 +45,7 @@ public class PlayerHealth : MonoBehaviour
                     timeSpendToHeal += Time.deltaTime;
             }
         }
+        nextTakeDamage += Time.deltaTime;
 
 
     }
@@ -51,9 +54,12 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isDead)
             return;
-
-        currentHealth -= damageAmount;
-        isAtacked = true;
+        if (nextTakeDamage >= takeDamageCool)
+        {
+            currentHealth -= damageAmount;
+            isAtacked = true;
+            nextTakeDamage = 0f;
+        }
 
         // Check if the player is dead
         if (currentHealth <= 0)
