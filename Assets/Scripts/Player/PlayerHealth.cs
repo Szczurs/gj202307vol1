@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
     private float timeSpend = 0f;
     private float timeSpendToHeal = 0f;
     private float takeDamageCool = 3f;
-    private float nextTakeDamage = 0f;
+    [SerializeField] private float nextTakeDamage = 0f;
     public bool isAtacked = false;
 
     void Start()
@@ -32,10 +32,10 @@ public class PlayerHealth : MonoBehaviour
         else if (!isAtacked)
         {
             timeSpend = 0f;
-            if (currentHealth == maxHealth)
-                return;
-            else
-            {
+            //if (currentHealth == maxHealth)
+            //    return;
+            //else
+            //{
                 if (timeSpendToHeal >= nextHealCool)
                 {
                     Heal();
@@ -43,10 +43,10 @@ public class PlayerHealth : MonoBehaviour
                 }
                 else
                     timeSpendToHeal += Time.deltaTime;
-            }
+            //}
         }
         nextTakeDamage += Time.deltaTime;
-
+        Debug.Log(nextTakeDamage);
 
     }
 
