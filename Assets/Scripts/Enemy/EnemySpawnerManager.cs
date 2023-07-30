@@ -48,9 +48,6 @@ public class EnemySpawnerManager : MonoBehaviour
     {
         while (true)
         {
-            // Remove any missing GameObjects from the spawnedEnemies list
-            spawnedEnemies.RemoveAll(enemy => enemy == null);
-
             // Loop through each spawner and spawn enemies if needed
             foreach (GameObject spawner in enemySpawners)
             {
@@ -64,5 +61,4 @@ public class EnemySpawnerManager : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
     }
-
 }
