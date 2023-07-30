@@ -64,5 +64,4 @@ public class EnemySpawnerManager : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
     }
-
 }
